@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
 <link rel="stylesheet" href="../assets/css/variables.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -220,6 +221,7 @@
       </div>
       <div class="topbar-actions">
         <button id="refresh-btn">🔄 بروزرسانی</button>
+        <button id="excel-btn">📊 خروجی اکسل</button>
         <button id="print-btn" class="primary">🖨 چاپ</button>
       </div>
     </div>
@@ -371,18 +373,22 @@
   }
   function escapeAttr(s) { return escapeHtml(s); }
 
-  function renderTable() {
+  function getFilteredRows() {
     var search = searchInput.value.trim().toLowerCase();
     var catCol = categoryColumnSelect.value;
     var catVal = categoryValueSelect.value;
 
-    var filtered = allRows.filter(function (row) {
+    return allRows.filter(function (row) {
       if (catCol && catVal && (row[catCol] || "").trim() !== catVal) return false;
       if (!search) return true;
       return headers.some(function (h) {
         return (row[h] || "").toLowerCase().indexOf(search) !== -1;
       });
     });
+  }
+
+  function renderTable() {
+    var filtered = getFilteredRows();
 
     tableHead.innerHTML = headers.map(function (h) {
       return "<th>" + escapeHtml(h) + "</th>";
@@ -410,6 +416,30 @@
   categoryValueSelect.addEventListener("change", renderTable);
   refreshBtn.addEventListener("click", loadData);
   printBtn.addEventListener("click", function () { window.print(); });
+
+  var excelBtn = document.getElementById("excel-btn");
+  excelBtn.addEventListener("click", function () {
+    var filtered = getFilteredRows();
+    if (filtered.length === 0) {
+      alert("موردی برای خروجی گرفتن وجود ندارد.");
+      return;
+    }
+    var rowsForSheet = filtered.map(function (row) {
+      var obj = {};
+      headers.forEach(function (h) { obj[h] = row[h] || ""; });
+      return obj;
+    });
+    var worksheet = XLSX.utils.json_to_sheet(rowsForSheet, { header: headers });
+    worksheet["!cols"] = headers.map(function (h) {
+      return { wch: Math.min(Math.max(h.length, 14), 40) };
+    });
+    var workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "لیدها");
+
+    var today = new Date();
+    var dateStr = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+    XLSX.writeFile(workbook, "leads-ppes-" + dateStr + ".xlsx");
+  });
 })();
 </script>
 
