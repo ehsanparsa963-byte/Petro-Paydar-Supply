@@ -19,9 +19,14 @@
 
 .equipment-card .img-placeholder {
   height: 160px;
+  min-height: 0;
 }
 
 .about-media .img-placeholder {
   height: 420px;
   border-radius: var(--radius-lg);
+}
+
+.project-card .img-placeholder {
+  min-height: 0;
 }

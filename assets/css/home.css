@@ -122,20 +122,22 @@
 .equipment-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 32px;
 }
 
 .equipment-card {
   background-color: var(--color-surface);
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .equipment-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+  border-color: transparent;
 }
 
 .equipment-card img {
@@ -145,19 +147,19 @@
 }
 
 .equipment-card-body {
-  padding: 20px;
+  padding: 28px;
 }
 
 .equipment-card-body h3 {
   color: var(--color-navy);
   font-size: 1.05rem;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .equipment-card-body p {
   color: var(--color-text-muted);
   font-size: 0.85rem;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
 .equipment-card-body a {
@@ -170,7 +172,7 @@
 .about-split {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
-  gap: 56px;
+  gap: 72px;
   align-items: center;
 }
 
@@ -224,16 +226,23 @@
 .process-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 32px;
 }
 
 .process-card {
   position: relative;
   background-color: var(--color-surface);
   border-radius: var(--radius-md);
-  padding: 32px 24px;
+  padding: 40px 28px;
   text-align: center;
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.process-card:hover {
   box-shadow: var(--shadow-sm);
+  border-color: transparent;
 }
 
 .process-number {
@@ -246,13 +255,13 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  margin: 0 auto 18px;
+  margin: 0 auto 22px;
 }
 
 .process-card h3 {
   color: var(--color-navy);
   font-size: 1rem;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .process-card p {
