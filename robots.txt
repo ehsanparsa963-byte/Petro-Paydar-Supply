@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /pages/leads.html
+
+Sitemap: https://ehsanparsa963-byte.github.io/Petro-Paydar-Supply/sitemap.xml

@@ -42,6 +42,20 @@ document.addEventListener("DOMContentLoaded", function () {
     rfqForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
+      // بررسی فیلد ضد اسپم (Honeypot): ربات‌ها معمولاً همه فیلدها را پر می‌کنند،
+      // کاربر واقعی این فیلد مخفی را نمی‌بیند و پر نمی‌کند.
+      var honeypot = rfqForm.querySelector("#website");
+      if (honeypot && honeypot.value.trim() !== "") {
+        // درخواست مشکوک به اسپم است: چیزی به شیت ارسال نمی‌شود،
+        // ولی برای گمراه نکردن ربات، پیام موفقیت به‌صورت ظاهری نمایش داده می‌شود.
+        var fakeSuccess = document.createElement("p");
+        fakeSuccess.className = "form-success";
+        fakeSuccess.textContent = "درخواست شما با موفقیت ثبت شد. کارشناسان ما به‌زودی با شما تماس می‌گیرند.";
+        rfqForm.appendChild(fakeSuccess);
+        rfqForm.reset();
+        return;
+      }
+
       var existingNote = rfqForm.querySelector(".form-success");
       if (existingNote) {
         existingNote.remove();
