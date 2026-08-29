@@ -1,0 +1,27 @@
+/* جایگزین موقت برای تصاویر واقعی تا زمان دریافت عکس‌های نهایی */
+.img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-slate) 0%, var(--color-navy) 100%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  min-height: 100%;
+}
+
+.hero-media .img-placeholder {
+  height: 420px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.equipment-card .img-placeholder {
+  height: 160px;
+}
+
+.about-media .img-placeholder {
+  height: 420px;
+  border-radius: var(--radius-lg);
+}

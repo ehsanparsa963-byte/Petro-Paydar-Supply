@@ -1,0 +1,25 @@
+:root {
+  /* رنگ‌های برند PPES برگرفته از لوگو */
+  --color-navy: #0f2a3d;
+  --color-navy-dark: #0a1e2c;
+  --color-orange: #f07e1d;
+  --color-orange-dark: #d5680f;
+  --color-slate: #5a6e7f;
+  --color-slate-light: #8fa0ac;
+  --color-bg: #f7f8f9;
+  --color-surface: #ffffff;
+  --color-text: #1c2b34;
+  --color-text-muted: #5a6e7f;
+  --color-border: #e2e6e9;
+
+  --font-base: "Vazirmatn", "Tahoma", sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --shadow-sm: 0 2px 8px rgba(15, 42, 61, 0.08);
+  --shadow-md: 0 8px 24px rgba(15, 42, 61, 0.12);
+
+  --container-width: 1200px;
+}

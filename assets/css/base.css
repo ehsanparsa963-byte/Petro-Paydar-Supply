@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  direction: rtl;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 72px 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 48px;
+}
+
+.section-tag {
+  display: inline-block;
+  color: var(--color-orange);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  color: var(--color-navy);
+  margin-bottom: 12px;
+}
+
+.section-header p {
+  color: var(--color-text-muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-orange);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-orange-dark);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-navy);
+  border: 1px solid var(--color-navy);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-navy);
+  color: #fff;
+}
+
+.btn-outline-light {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-outline-light:hover {
+  background-color: #fff;
+  color: var(--color-navy);
+}
+
+/* واترمارک سراسری ثابت (پشت محتوا، زیر نوارهای رنگی توپُر مثل هیرو/CTA/فوتر محو می‌شود) */
+.site-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(60vw, 620px);
+  transform: translate(-50%, -50%);
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+}
+
+.site-watermark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 700px) {
+  .site-watermark {
+    width: min(85vw, 420px);
+    opacity: 0.045;
+  }
+}

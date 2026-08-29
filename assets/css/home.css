@@ -1,0 +1,383 @@
+/* هیرو */
+.hero {
+  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+  color: #fff;
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-block;
+  background-color: rgba(240, 126, 29, 0.15);
+  color: var(--color-orange);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.hero h1 span {
+  color: var(--color-orange);
+}
+
+.hero p {
+  color: #c3d0d8;
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin-bottom: 32px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 40px;
+}
+
+.hero-stats div strong {
+  display: block;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.hero-stats div span {
+  color: #9fb0ba;
+  font-size: 0.85rem;
+}
+
+.hero-media {
+  position: relative;
+}
+
+.hero-media img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  z-index: 1;
+}
+
+/* نوار مزیت‌ها زیر هیرو */
+.usp-bar {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.usp-bar .container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.usp-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.usp-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background-color: rgba(240, 126, 29, 0.12);
+  color: var(--color-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.usp-item h4 {
+  font-size: 0.95rem;
+  color: var(--color-navy);
+  margin-bottom: 2px;
+}
+
+.usp-item p {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* دسته‌بندی تجهیزات */
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.equipment-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.equipment-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.equipment-card img {
+  height: 160px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.equipment-card-body {
+  padding: 20px;
+}
+
+.equipment-card-body h3 {
+  color: var(--color-navy);
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.equipment-card-body p {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+.equipment-card-body a {
+  color: var(--color-orange);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* درباره / چرا ما */
+.about-split {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.about-media img {
+  border-radius: var(--radius-lg);
+}
+
+.about-content .section-tag {
+  margin-bottom: 12px;
+}
+
+.about-content h2 {
+  font-size: 2rem;
+  color: var(--color-navy);
+  margin-bottom: 18px;
+}
+
+.about-content p {
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.about-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.about-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.check-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--color-orange);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+/* فرآیند اجاره */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.process-card {
+  position: relative;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.process-number {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin: 0 auto 18px;
+}
+
+.process-card h3 {
+  color: var(--color-navy);
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.process-card p {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+/* صنایع مشتری */
+.industries-bg {
+  background-color: var(--color-navy);
+  color: #fff;
+}
+
+.industries-bg .section-header p {
+  color: #9fb0ba;
+}
+
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.industry-item {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 28px 16px;
+  text-align: center;
+}
+
+.industry-item .usp-icon {
+  margin: 0 auto 14px;
+}
+
+.industry-item h4 {
+  font-size: 0.9rem;
+}
+
+/* CTA */
+.cta-band {
+  background: linear-gradient(120deg, var(--color-orange) 0%, var(--color-orange-dark) 100%);
+  color: #fff;
+}
+
+.cta-band .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cta-band h2 {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+.cta-band p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cta-actions {
+  display: flex;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.cta-band .btn-primary {
+  background-color: #fff;
+  color: var(--color-orange-dark);
+}
+
+.cta-band .btn-primary:hover {
+  background-color: var(--color-navy);
+  color: #fff;
+}
+
+@media (max-width: 1024px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-media {
+    order: -1;
+  }
+
+  .usp-bar .container,
+  .equipment-grid,
+  .process-grid,
+  .industries-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-split {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-band .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .usp-bar .container,
+  .equipment-grid,
+  .process-grid,
+  .industries-grid,
+  .about-checklist {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-actions .btn {
+    width: 100%;
+  }
+}
