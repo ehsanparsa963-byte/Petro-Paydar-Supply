@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   var rfqForm = document.querySelector(".rfq-form");
+  var GOOGLE_SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbx2noOeLUYaLTflnqq70dsdAI7tri68Kv-b40mM-HOno4SkJU3b1mRp0IRIPYT8Loj9/exec";
 
   if (rfqForm) {
     rfqForm.addEventListener("submit", function (event) {
@@ -46,12 +47,36 @@ document.addEventListener("DOMContentLoaded", function () {
         existingNote.remove();
       }
 
-      var success = document.createElement("p");
-      success.className = "form-success";
-      success.textContent = "درخواست شما با موفقیت ثبت شد. کارشناسان ما به‌زودی با شما تماس می‌گیرند.";
-      rfqForm.appendChild(success);
+      var submitBtn = rfqForm.querySelector("button[type=submit]");
+      var originalBtnText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "در حال ارسال...";
+      }
 
-      rfqForm.reset();
+      var formData = new FormData(rfqForm);
+
+      fetch(GOOGLE_SHEET_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      })
+        .catch(function (err) {
+          console.error("خطا در ارسال درخواست به شیت:", err);
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+          }
+
+          var success = document.createElement("p");
+          success.className = "form-success";
+          success.textContent = "درخواست شما با موفقیت ثبت شد. کارشناسان ما به‌زودی با شما تماس می‌گیرند.";
+          rfqForm.appendChild(success);
+
+          rfqForm.reset();
+        });
     });
   }
 });
