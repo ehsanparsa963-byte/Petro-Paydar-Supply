@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>لیدهای RFQ | پترو پایدار تامین انرژی</title>
+<link rel="icon" href="../assets/images/logo.png" type="image/png" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
+<link rel="stylesheet" href="../assets/css/variables.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-base);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    direction: rtl;
+  }
+
+  /* ---------- Password gate ---------- */
+  #gate {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  #gate.hidden { display: none; }
+  .gate-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: 40px 32px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+  }
+  .gate-card img { height: 56px; margin: 0 auto 18px; }
+  .gate-card h1 { font-size: 1.2rem; color: var(--color-navy); margin-bottom: 6px; }
+  .gate-card p { color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 22px; }
+  .gate-card input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    text-align: center;
+  }
+  .gate-card input:focus { outline: none; border-color: var(--color-orange); }
+  .gate-card button {
+    width: 100%;
+    padding: 13px;
+    border-radius: var(--radius-sm);
+    background: var(--color-orange);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .gate-card button:hover { background: var(--color-orange-dark); }
+  .gate-error {
+    color: #c0392b;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    min-height: 1.2em;
+  }
+
+  /* ---------- App shell ---------- */
+  #app { display: none; }
+  #app.visible { display: block; }
+
+  .topbar {
+    background: var(--color-navy);
+    color: #fff;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topbar-brand { display: flex; align-items: center; gap: 12px; }
+  .topbar-brand img { height: 40px; }
+  .topbar-brand h1 { font-size: 1.05rem; }
+  .topbar-brand span { display: block; font-size: 0.78rem; color: #9fb0ba; }
+  .topbar-actions { display: flex; gap: 10px; }
+  .topbar-actions button {
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+  }
+  .topbar-actions button:hover { background: rgba(255,255,255,0.12); }
+  .topbar-actions button.primary { background: var(--color-orange); border-color: var(--color-orange); }
+  .topbar-actions button.primary:hover { background: var(--color-orange-dark); }
+
+  .toolbar {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 16px 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .toolbar input[type="text"], .toolbar select {
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-family: inherit;
+    font-size: 0.88rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+  .toolbar input[type="text"] { flex: 1; min-width: 200px; }
+  .toolbar-count { color: var(--color-text-muted); font-size: 0.85rem; white-space: nowrap; }
+
+  .content { padding: 24px 28px 60px; }
+
+  #status { color: var(--color-text-muted); font-size: 0.9rem; padding: 40px; text-align: center; }
+  #status.error { color: #c0392b; }
+
+  .table-wrap {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    overflow: auto;
+    box-shadow: var(--shadow-sm);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 700px; }
+  thead th {
+    background: var(--color-bg);
+    color: var(--color-navy);
+    text-align: right;
+    padding: 12px 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+  }
+  tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    vertical-align: top;
+    max-width: 260px;
+  }
+  tbody tr:hover { background: rgba(240, 126, 29, 0.05); }
+  tbody tr:last-child td { border-bottom: none; }
+  .cell-truncate {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cell-truncate.expanded { white-space: normal; overflow: visible; }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--color-text-muted); }
+
+  /* ---------- Print ---------- */
+  @media print {
+    .topbar, .toolbar, #gate { display: none !important; }
+    body { background: #fff; }
+    .content { padding: 0; }
+    .table-wrap { border: none; box-shadow: none; }
+    thead th { position: static; background: #eee !important; -webkit-print-color-adjust: exact; }
+    .cell-truncate { white-space: normal !important; overflow: visible !important; max-width: none; }
+  }
+
+  @media (max-width: 700px) {
+    .topbar, .toolbar, .content { padding-left: 16px; padding-right: 16px; }
+    .topbar { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ---------- Password gate ---------- -->
+  <div id="gate">
+    <div class="gate-card">
+      <img src="../assets/images/logo.png" alt="پترو پایدار تامین انرژی" />
+      <h1>پنل لیدهای RFQ</h1>
+      <p>این صفحه محافظت‌شده است. لطفاً رمز عبور را وارد کنید.</p>
+      <input type="password" id="password-input" placeholder="رمز عبور" />
+      <button id="unlock-btn">ورود</button>
+      <div class="gate-error" id="gate-error"></div>
+    </div>
+  </div>
+
+  <!-- ---------- Main app ---------- -->
+  <div id="app">
+    <div class="topbar">
+      <div class="topbar-brand">
+        <img src="../assets/images/logo.png" alt="لوگو" />
+        <div>
+          <h1>لیدهای فرم درخواست استعلام (RFQ)</h1>
+          <span>اتصال زنده به گوگل‌شیت</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="refresh-btn">🔄 بروزرسانی</button>
+        <button id="print-btn" class="primary">🖨 چاپ</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="search-input" placeholder="جستجو در همه ستون‌ها..." />
+      <select id="category-column"></select>
+      <select id="category-value"></select>
+      <span class="toolbar-count" id="row-count"></span>
+    </div>
+
+    <div class="content">
+      <div id="status">در حال بارگذاری اطلاعات...</div>
+      <div class="table-wrap" id="table-wrap" style="display:none;">
+        <table id="data-table">
+          <thead><tr id="table-head"></tr></thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  // ================== تنظیمات ==================
+  var SITE_PASSWORD = "09131066170ep";
+  var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNF3PVUx_hM899GfFurwCL371JdI7WNPy1nRWcKcqWk9Ic8lLz1TnXz3RZ2iJATB70wxjp8myU6X8f/pub?output=csv&gid=0";
+  var SESSION_KEY = "ppes_leads_unlocked";
+  // ===============================================
+
+  var allRows = [];
+  var headers = [];
+
+  // ---------- Password gate ----------
+  var gate = document.getElementById("gate");
+  var app = document.getElementById("app");
+  var pwInput = document.getElementById("password-input");
+  var unlockBtn = document.getElementById("unlock-btn");
+  var gateError = document.getElementById("gate-error");
+
+  function unlock() {
+    if (pwInput.value === SITE_PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, "1");
+      gate.classList.add("hidden");
+      app.classList.add("visible");
+      loadData();
+    } else {
+      gateError.textContent = "رمز عبور اشتباه است.";
+      pwInput.value = "";
+      pwInput.focus();
+    }
+  }
+
+  unlockBtn.addEventListener("click", unlock);
+  pwInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") unlock();
+  });
+
+  if (sessionStorage.getItem(SESSION_KEY) === "1") {
+    gate.classList.add("hidden");
+    app.classList.add("visible");
+    loadData();
+  } else {
+    pwInput.focus();
+  }
+
+  // ---------- Data loading ----------
+  var statusEl = document.getElementById("status");
+  var tableWrap = document.getElementById("table-wrap");
+  var tableHead = document.getElementById("table-head");
+  var tableBody = document.getElementById("table-body");
+  var searchInput = document.getElementById("search-input");
+  var categoryColumnSelect = document.getElementById("category-column");
+  var categoryValueSelect = document.getElementById("category-value");
+  var rowCountEl = document.getElementById("row-count");
+  var refreshBtn = document.getElementById("refresh-btn");
+  var printBtn = document.getElementById("print-btn");
+
+  function loadData() {
+    statusEl.style.display = "block";
+    statusEl.classList.remove("error");
+    statusEl.textContent = "در حال بارگذاری اطلاعات...";
+    tableWrap.style.display = "none";
+
+    Papa.parse(SHEET_CSV_URL, {
+      download: true,
+      header: false,
+      skipEmptyLines: true,
+      complete: function (results) {
+        var data = results.data;
+        if (!data || data.length === 0) {
+          showError("شیت خالی است یا خوانده نشد.");
+          return;
+        }
+        headers = data[0];
+        allRows = data.slice(1).map(function (row) {
+          var obj = {};
+          headers.forEach(function (h, i) {
+            obj[h] = row[i] !== undefined ? row[i] : "";
+          });
+          return obj;
+        });
+        buildCategoryColumnOptions();
+        renderTable();
+        statusEl.style.display = "none";
+        tableWrap.style.display = "block";
+      },
+      error: function () {
+        showError("اتصال به گوگل‌شیت برقرار نشد. لطفاً تنظیمات Publish to web را بررسی کنید.");
+      }
+    });
+  }
+
+  function showError(msg) {
+    statusEl.textContent = msg;
+    statusEl.classList.add("error");
+    tableWrap.style.display = "none";
+  }
+
+  function buildCategoryColumnOptions() {
+    categoryColumnSelect.innerHTML = "<option value=''>بدون دسته‌بندی</option>" +
+      headers.map(function (h) { return "<option value=\"" + escapeAttr(h) + "\">" + escapeHtml(h) + "</option>"; }).join("");
+    categoryColumnSelect.value = "";
+    buildCategoryValueOptions();
+  }
+
+  function buildCategoryValueOptions() {
+    var col = categoryColumnSelect.value;
+    if (!col) {
+      categoryValueSelect.innerHTML = "<option value=''>همه</option>";
+      categoryValueSelect.style.display = "none";
+      return;
+    }
+    var values = {};
+    allRows.forEach(function (r) {
+      var v = (r[col] || "").trim();
+      if (v) values[v] = true;
+    });
+    var opts = Object.keys(values).sort();
+    categoryValueSelect.innerHTML = "<option value=''>همه (" + opts.length + ")</option>" +
+      opts.map(function (v) { return "<option value=\"" + escapeAttr(v) + "\">" + escapeHtml(v) + "</option>"; }).join("");
+    categoryValueSelect.style.display = "inline-block";
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+
+  function renderTable() {
+    var search = searchInput.value.trim().toLowerCase();
+    var catCol = categoryColumnSelect.value;
+    var catVal = categoryValueSelect.value;
+
+    var filtered = allRows.filter(function (row) {
+      if (catCol && catVal && (row[catCol] || "").trim() !== catVal) return false;
+      if (!search) return true;
+      return headers.some(function (h) {
+        return (row[h] || "").toLowerCase().indexOf(search) !== -1;
+      });
+    });
+
+    tableHead.innerHTML = headers.map(function (h) {
+      return "<th>" + escapeHtml(h) + "</th>";
+    }).join("");
+
+    if (filtered.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan=\"" + headers.length + "\"><div class=\"empty-state\">موردی یافت نشد.</div></td></tr>";
+    } else {
+      tableBody.innerHTML = filtered.map(function (row) {
+        return "<tr>" + headers.map(function (h) {
+          var val = row[h] || "";
+          return "<td><span class=\"cell-truncate\" onclick=\"this.classList.toggle('expanded')\">" + escapeHtml(val) + "</span></td>";
+        }).join("") + "</tr>";
+      }).join("");
+    }
+
+    rowCountEl.textContent = filtered.length + " از " + allRows.length + " رکورد";
+  }
+
+  searchInput.addEventListener("input", renderTable);
+  categoryColumnSelect.addEventListener("change", function () {
+    buildCategoryValueOptions();
+    renderTable();
+  });
+  categoryValueSelect.addEventListener("change", renderTable);
+  refreshBtn.addEventListener("click", loadData);
+  printBtn.addEventListener("click", function () { window.print(); });
+})();
+</script>
+
+</body>
+</html>
