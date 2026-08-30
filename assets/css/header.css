@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 24px;
+  padding: 12px 24px;
 }
 
 .brand {
@@ -82,7 +82,7 @@
 }
 
 .header-logo img {
-  height: 72px;
+  height: 48px;
   width: auto;
 }
 
@@ -101,7 +101,7 @@
 @media (max-width: 900px) {
   .main-nav {
     position: fixed;
-    top: 84px;
+    top: 72px;
     right: 0;
     left: 0;
     background-color: var(--color-surface);
@@ -124,7 +124,7 @@
   }
 
   .header-logo img {
-    height: 56px;
+    height: 44px;
   }
 
   .header-phone span {
@@ -150,6 +150,6 @@
   }
 
   .header-logo img {
-    height: 44px;
+    height: 40px;
   }
 }
